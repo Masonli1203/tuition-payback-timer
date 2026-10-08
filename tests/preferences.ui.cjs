@@ -16,8 +16,8 @@ const additions = [
 ];
 let browser;
 const errors = [];
-async function createPage({ desktop = false, saved = null, configuration = null } = {}) {
-  const context = await browser.newContext({ viewport: { width: 480, height: 420 }, locale: 'zh-CN', timezoneId: 'America/New_York' });
+async function createPage({ desktop = false, saved = null, configuration = null, locale = 'zh-CN' } = {}) {
+  const context = await browser.newContext({ viewport: { width: 480, height: 420 }, locale, timezoneId: 'America/New_York' });
   const page = await context.newPage();
   page.on('pageerror', error => errors.push(error.message));
   await routeApp(page, origin);
@@ -70,7 +70,9 @@ async function noOverflow(page) {
   assert(await page.locator('#preferences-dialog').isVisible());
   assert.equal(await page.locator('#language-choice option').count(), 6);
   assert.equal(await page.locator('#currency-choice option').count(), 12);
-  await page.locator('#language-choice').selectOption('en-US');
+  assert.equal(await page.locator('#language-choice').inputValue(), 'en-US');
+  assert.equal(await page.locator('#currency-choice').inputValue(), 'USD');
+  assert.equal(await page.locator('html').getAttribute('lang'), 'en-US');
   assert.equal(await page.locator('#preferences-heading').textContent(), 'Language & currency');
   await page.waitForTimeout(200);
   await page.screenshot({ path: path.join(output, 'first-use.png') });
@@ -153,6 +155,8 @@ async function noOverflow(page) {
   await spanish.locator('#settings-cancel').click();
   assert.equal(await spanish.locator('#amount-fraction .flip-separator').textContent(), ',');
   const desktop = await createPage({ desktop: true, configuration: config, saved: '{"version":1,"language":"zh-CN","currency":"USD"}' });
+  assert.equal(await desktop.locator('#preferences-dialog').isVisible(), false);
+  assert.equal(await desktop.locator('html').getAttribute('lang'), 'zh-CN');
   await desktop.locator('#preferences-open').click();
   await desktop.locator('#language-choice').selectOption('en-US');
   await desktop.locator('#currency-choice').selectOption('JPY');
@@ -194,13 +198,23 @@ async function noOverflow(page) {
   await desktop.locator('#preferences-cancel').click();
   const damaged = await createPage({ saved: '{', configuration: config });
   assert(await damaged.locator('#preferences-dialog').isVisible());
-  assert.match(await damaged.locator('#preferences-feedback').textContent(), /原数据保留/);
+  assert.match(await damaged.locator('#preferences-feedback').textContent(), /Your data is preserved/);
   await damaged.keyboard.press('Escape');
   assert.equal(await damaged.evaluate(key => localStorage.getItem(key), key), '{');
-  const fresh = await createPage();
-  await fresh.locator('#preferences-cancel').click();
-  assert.equal(await fresh.locator('#preferences-dialog').isVisible(), false);
-  assert.equal(await fresh.evaluate(key => localStorage.getItem(key), key), null);
+  for (const locale of [...languageCodes, 'fr-FR']) {
+    const fresh = await createPage({ locale });
+    assert.equal(await fresh.locator('#language-choice').inputValue(), 'en-US', locale);
+    assert.equal(await fresh.locator('#currency-choice').inputValue(), 'USD');
+    assert.equal(await fresh.locator('#preferences-heading').textContent(), 'Language & currency');
+    await fresh.locator('#preferences-cancel').click();
+    assert.equal(await fresh.locator('#preferences-dialog').isVisible(), false);
+    assert.equal(await fresh.locator('html').getAttribute('lang'), 'en-US');
+    assert.equal(await fresh.evaluate(key => localStorage.getItem(key), key), null);
+    await fresh.reload();
+    await fresh.locator('#preferences-dialog').waitFor({ state: 'visible' });
+    assert.equal(await fresh.locator('#language-choice').inputValue(), 'en-US');
+    await fresh.context().close();
+  }
   assert.deepEqual(errors, []);
-  console.log('Preferences UI: 6 languages, previews/restarts, localized editor and import, Spanish decimal input, failure/retry, 36 desktop layouts and data preservation passed.');
+  console.log('Preferences UI: English first use across 7 system locales, 6 saved languages, previews/restarts, localized editor and import, Spanish decimal input, failure/retry, 36 desktop layouts and data preservation passed.');
 })().finally(async () => { if (browser) await browser.close(); }).catch(error => { console.error(error); process.exitCode = 1; });

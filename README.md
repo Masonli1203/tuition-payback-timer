@@ -1,89 +1,91 @@
-# 学费回本计时器 · Tuition Payback Timer
+# Tuition Payback Timer
 
-上课的时候，看着学费一秒一秒“赚回来”。
+English | [简体中文](README.zh-CN.md)
 
-一个带点自我调侃的课堂计时小工具：输入学期学费和课表，把学费均摊到每一秒上课时间。上课时，窗口里的金额逐秒增长，每攒够 10 个货币单位，就掉下一枚金币。
+Watch your tuition “pay for itself,” one second of class at a time.
 
-[下载 Windows 版](https://github.com/Masonli1203/tuition-payback-timer/releases/latest) · [使用说明](docs/usage.md) · [MIT 许可证](LICENSE)
+A small, tongue-in-cheek classroom timer. Enter your semester tuition and timetable, and the app spreads the cost across every second of scheduled class. The amount ticks up while class is in session, with a coin dropping for every 10 currency units recovered.
 
-## 为什么做这个项目
+[Download for Windows](https://github.com/Masonli1203/tuition-payback-timer/releases/latest) · [User guide](docs/usage.en.md) · [MIT license](LICENSE)
 
-学费已经交了，课也得上。既然如此，不妨换个有点讽刺的视角：每上一秒课，就当自己赚回了一点学费。
+## Why this exists
 
-做这个项目，主要是想给上课这件事加一点趣味。把一笔抽象的学费变成眼前不断翻动的数字，再看着金币慢慢堆起来，有一种“今天又回了点本”的满足感。认真上课的提醒也有，不过它首先是个自娱自乐的小玩具。
+The tuition is already paid, and you still have to go to class. Here is a slightly sarcastic way to look at it: every second you sit through is a little money earned back.
 
-这里的“回本”是按课表计算的可视化比喻。程序只知道课程时间和学费，不知道你有没有到场、是否专心，也不会衡量一堂课的价值。即使没有打开程序，已经结束的课次也会计入学期累计。
+This project turns an abstract tuition bill into a rolling number and a growing pile of coins. There is something satisfying about watching today's classes chip away at it. It has a reminder to pay attention, too, but the main point is to make yourself laugh a little.
 
-## 现在实现了什么
+“Payback” is a visual metaphor based on your timetable. The app knows class times and tuition, but cannot tell whether you attended, paid attention, or got your money's worth. Classes that have already ended count toward the semester total even if the app was closed.
 
-当前版本为 **0.2.9**，提供 Windows x64 桌面程序和可在本机浏览器运行的网页版本。
+## Features
 
-| 功能 | 当前行为 |
+Version **0.2.10** includes a Windows x64 desktop app and a version you can run in a local browser. First launch defaults to **English** and **USD**, regardless of your system language. Upgrading preserves your saved language and currency.
+
+| Feature | How it works |
 | --- | --- |
-| 按课表自动计时 | 上课时显示当前课程、已回本金额、下课倒计时和进度；课间显示下一节课及开课倒计时 |
-| 学期累计 | 只累计完整结束的课次，本节课到下课时一次计入；关闭重开后按当前课表重算 |
-| 课表编辑 | 支持一天多节课、每门课独立起止日期、停课日期，以及跨午夜课程；实际重叠的课次会被拒绝 |
-| 学费与课时预览 | 根据日期范围内实际出现的课次计算总课时和每秒价值，时长按整数小时、分钟填写 |
-| 数字翻页与金币 | 金额按整秒更新，仅变化位翻页；本节课每满 10 个所选货币单位掉一枚金币，换课清零 |
-| 桌面窗口 | 默认 480 × 420，可拖动、置顶、最小化和最大化；最大化时按课表显示“好好上课！”或“好好休息！” |
-| 自动昼夜配色 | 按设备本地时间切换，07:00 至 19:00 为浅色，其余时间为深色 |
-| 语言与货币 | 六种界面语言、十二种计价货币，可分别选择，课程名称保留原文 |
-| 课表导入与备份 | 支持部分 ICS 日历规则、完整 JSON 配置导入导出；导入前预览，确认后生效 |
-| 本地保存 | 桌面版把配置写入本机文件，覆盖时备份旧文件；网页版使用浏览器本地存储 |
+| Timetable-based timer | Shows the current class, recovered amount, time remaining, and progress; between classes, shows the next class and its countdown |
+| Semester total | Adds each full class when it ends and recalculates from the current timetable when reopened |
+| Timetable editor | Supports multiple classes per day, individual course date ranges, excluded dates, and overnight classes; rejects overlapping sessions |
+| Tuition and hours preview | Calculates actual scheduled hours and the per-second rate; enter durations in whole hours and minutes |
+| Flipping digits and coins | Updates on whole seconds and animates only changing digits; drops a coin for each 10 currency units during the current class |
+| Desktop window | Starts at 480 × 420 with dragging, always-on-top, minimize, and maximize controls; shows “Focus on class!” or “Rest well!” when maximized |
+| Automatic light and dark themes | Uses light mode from 07:00 to 19:00 and dark mode otherwise, based on the device's local clock |
+| Languages and currencies | Six interface languages and twelve currencies, selected independently; course names stay as entered |
+| Import and backup | Imports supported ICS calendars and full JSON backups, with a preview before confirmation |
+| Local storage | Desktop files are backed up before replacement; the browser version uses local storage |
 
-![学费回本计时器的示例课堂界面](docs/images/timer.png)
+![Tuition Payback Timer showing a sample class in English](docs/images/timer-en.png)
 
-*截图使用示例课表。*
+*Screenshot uses a sample timetable.*
 
-语言：简体中文、English、日本語、繁體中文、한국어、Español。
+Languages: English, 简体中文, 日本語, 繁體中文, 한국어, Español.
 
-货币：USD、CNY、JPY、EUR、GBP、HKD、TWD、KRW、CAD、AUD、SGD、CHF。切换货币只改变计价单位，**不会换算汇率，也不会改变输入的学费数值**。所有货币的回本金额都保留两位小数。
+Currencies: USD, CNY, JPY, EUR, GBP, HKD, TWD, KRW, CAD, AUD, SGD, CHF. Changing currency **does not convert exchange rates or change the tuition number you entered**. Recovered amounts use two decimal places for every currency.
 
-## 下载和开始使用
+## Download and get started
 
-在 [Releases](https://github.com/Masonli1203/tuition-payback-timer/releases/latest) 下载：
+Get these files from [Releases](https://github.com/Masonli1203/tuition-payback-timer/releases/latest):
 
-- `TuitionPaybackTimer_0.2.9_x64-setup.exe`：Windows x64 安装包。
-- `TuitionPaybackTimer.exe`：可直接启动的程序，也使用同一应用数据目录保存设置。
-- `SHA256SUMS.txt`：发布文件的 SHA-256 校验值。
+- `TuitionPaybackTimer_0.2.10_x64-setup.exe`: Windows x64 installer.
+- `TuitionPaybackTimer.exe`: run directly; settings still use the same application data directory as the installed version.
+- `SHA256SUMS.txt`: SHA-256 checksums for the release files.
 
-桌面版需要 Windows WebView2 运行环境，应用运行时无需 Node.js、Rust 或开发服务器。此版本未做代码签名，Windows 可能显示未知发布者提示。
+The desktop app needs Windows WebView2. It runs without Node.js, Rust, or a development server. This build is unsigned, so Windows may show an unknown-publisher prompt.
 
-首次启动先选语言和货币，再点右上角齿轮，填入学费、学期日期和课程。也可以导入 ICS，核对课表并补填学费后保存。没有课表时，可在设置里载入实时示例，先体验计时和金币效果。
+On first launch, confirm or change the language and currency. Then open the gear button and enter tuition, semester dates, and courses. You can also import an ICS file, review the timetable, add tuition, and save. With no timetable configured, use the live demo in settings to try the timer and coins.
 
-程序运行和课表计算在本机完成，没有账号、云同步或远端服务。
+The app and its calculations run locally. There are no accounts, cloud sync, or remote services.
 
-## “回本”怎么算
+## How “payback” is calculated
 
 ```text
-每秒价值 = 学期总学费 ÷ 学期总上课秒数
-本节课已回本 = 每秒价值 × 本节课已过去的上课秒数
-本学期已回本 = 每秒价值 × 所有已结束课次的完整秒数
+Value per second = semester tuition ÷ total scheduled class seconds
+Recovered this class = value per second × elapsed seconds in this class
+Recovered this semester = value per second × full duration of all ended classes
 ```
 
-总课时按各门课程实际出现的次数统计，包含首尾不足一周的课次，并扣除停课。每门课都使用同一个学期每秒费率。
+Total hours come from the actual occurrences of each course, including partial weeks at either end of the semester and excluding canceled dates. Every course uses the same semester-wide per-second rate.
 
-例如，假设学费为 24,000、总上课时长为 120 小时，则每小时对应 200；一节两小时的课结束时，对应 400。这个例子只是说明算法。
+For example, tuition of 24,000 spread over 120 hours works out to 200 per hour, or 400 for a completed two-hour class. These are sample values.
 
-进行中的本节课金额向下截取两位小数，下课后的金额四舍五入。学期累计先汇总完整精度再显示，避免逐节舍入产生误差。全部课程结束时，学期累计等于输入的总学费。
+During a class, the displayed amount is truncated to two decimal places; the final class amount is rounded. The semester total is summed at full precision before display to avoid rounding each class separately. Once all classes have ended, the semester total equals the tuition entered.
 
-计算使用设备本地日历与真实时间戳。刷新、后台恢复和重新打开时直接重算，不需要让窗口一直运行。修改学费或课表，也会重算之前的累计；当前版本没有独立的出勤账本或历史报表。
+Calculations use the device's local calendar and actual timestamps. Refreshing, resuming, or reopening recalculates immediately, so the window need not stay open. Editing tuition or the timetable also recalculates earlier totals. There is no separate attendance ledger or historical report.
 
-## 导入、保存与当前边界
+## Import, storage, and limits
 
-ICS 导入支持单次事件，以及带结束条件的每周重复课程，包含多个 `BYDAY`、`EXDATE` 停课、折行和文本转义。ICS 不含学费；确认预览只是把课程载入编辑区，点击保存才写入配置。
+ICS import supports single events and weekly courses with an end condition, including multiple `BYDAY` values, `EXDATE` exclusions, folded lines, and escaped text. ICS files contain no tuition. Confirming the preview loads courses into the editor; save the form to write the configuration.
 
-目前不支持隔周或月度重复、无限重复、单独改期、全天事件及跨设备时区的复杂日历。遇到无法表示的事件会拒绝整个文件并提示原因，完整规则见[使用说明](docs/usage.md#ics-支持范围)。迁移整个学期配置请用应用导出的 JSON。
+Biweekly or monthly recurrence, endless recurrence, individual rescheduling, all-day events, and calendars with incompatible time zones are unsupported. If an event cannot be represented, the whole file is rejected with an explanation. See the [ICS support guide](docs/usage.en.md#ics-support). Use an exported JSON backup to transfer a full semester configuration.
 
-桌面数据保存在 `%APPDATA%\com.mason.tuition-payback\`，其中 `configuration.json` 保存学期和课表，`preferences.json` 保存语言和货币。覆盖保存前会保留旧文件，保存失败时保留编辑内容，启动读取不会自动改写原文件。网页版的数据按浏览器和访问地址分别保存。
+Desktop data lives in `%APPDATA%\com.mason.tuition-payback\`: `configuration.json` holds tuition and the timetable, and `preferences.json` holds language and currency. Saving preserves the previous file; a failed save keeps your edits available to retry. Loading never automatically rewrites the source file. Browser data is separate for each browser and origin.
 
-当前只发布 Windows x64 安装包，尚无 macOS、Linux 或移动端发行版，也没有桌面外的小组件。实际硬件休眠和多设备 DPI 尚未完整验证。
+Only Windows x64 binaries are currently published. There are no macOS, Linux, or mobile releases, or standalone widgets. Actual hardware sleep and DPI behavior across multiple devices have not been fully verified.
 
-## 从源码运行
+## Run from source
 
-界面使用原生 HTML、CSS 和 JavaScript，桌面壳使用 Tauri 2。
+The interface uses plain HTML, CSS, and JavaScript. The desktop shell uses Tauri 2.
 
-网页本地运行只需要 Node.js。本项目在 Node.js 24 环境验证：
+Running the web version locally only requires Node.js. The project has been verified with Node.js 24:
 
 ```sh
 git clone https://github.com/Masonli1203/tuition-payback-timer.git
@@ -91,25 +93,25 @@ cd tuition-payback-timer
 npm start
 ```
 
-打开 [http://127.0.0.1:4173/](http://127.0.0.1:4173/)。服务只监听本机；可通过 `PORT` 环境变量修改端口。网页的最小化、最大化和关闭按钮只是界面展示，原生窗口操作在桌面版可用。
+Open [http://127.0.0.1:4173/](http://127.0.0.1:4173/). The server listens only on the local machine; set `PORT` to use another port. Native minimize, maximize, and close actions work in the desktop app; their browser counterparts are visual controls only.
 
-构建 Windows 桌面版还需要 Rust MSVC 工具链（Rust 1.90 或以上）、C++ Build Tools、Windows SDK 和 WebView2：
+To build for Windows, also install the Rust MSVC toolchain (Rust 1.90 or later), C++ Build Tools, Windows SDK, and WebView2:
 
 ```sh
 npm ci
 npm run desktop:build
 ```
 
-开发模式运行 `npm run desktop:dev`。构建产物位于：
+Use `npm run desktop:dev` for development mode. Build outputs are in:
 
 ```text
 src-tauri/target/release/tuition-payback.exe
 src-tauri/target/release/bundle/nsis/
 ```
 
-依赖版本由 `package-lock.json` 和 `src-tauri/Cargo.lock` 固定。`package.json` 中的 `private: true` 用于避免误发到 npm，不影响本项目按 MIT 许可证开源。
+Dependencies are pinned by `package-lock.json` and `src-tauri/Cargo.lock`. The `private: true` setting prevents accidental npm publication; the source is open under the MIT license.
 
-## 验证
+## Verification
 
 ```sh
 npm test
@@ -119,33 +121,33 @@ npm run desktop:prepare
 cargo test --manifest-path src-tauri/Cargo.toml
 ```
 
-`npm test` 包含 72 项 JavaScript 测试；Rust 文件保存逻辑有 5 项测试。三套网页回归使用本机 Microsoft Edge，覆盖 JSON / ICS、六语偏好、保存失败及重试、课程边界和不同窗口尺寸。
+The suite contains 72 JavaScript tests and 5 Rust file-storage tests. Three browser regression suites use local Microsoft Edge to cover JSON / ICS, language and currency preferences, save failures and retries, class boundaries, and different window sizes. First-use checks cover seven system locales; saved language choices are preserved.
 
-Windows 原生回归需要先构建独立的验证包：
+Native Windows regression requires a separate verification build:
 
 ```sh
 npm run desktop:build:verification
 npm run test:desktop
 ```
 
-验证包使用独立标识 `com.mason.tuition-payback.locale-verification`，测试只在隔离目录写入示例数据。原生回归覆盖文件写入、备份、重开、覆盖安装、旧版草稿、损坏文件保留和窗口行为。发布正式版本时需重新执行 `npm run desktop:build`，不要分发验证包。
+The verification app uses the isolated identifier `com.mason.tuition-payback.locale-verification` and writes sample data only to its test directories. Native checks cover file writes, backups, reopening, reinstalling, legacy drafts, damaged files, and window behavior. Run `npm run desktop:build` again for a production release; do not distribute the verification build.
 
-## 代码结构
+## Code layout
 
-| 文件 | 职责 |
+| File | Responsibility |
 | --- | --- |
-| `core.mjs` | 课时、金额、课次选择和学期累计；时间线封装课表快照与计算缓存 |
-| `app.mjs` | 计时界面、编辑器和应用状态 |
-| `calendar.mjs` | 通用 ICS 解析与课表校验 |
-| `configuration.mjs`、`persistence.mjs` | 配置格式、迁移、备份和存储适配 |
-| `preferences.mjs`、`i18n.mjs` | 语言、货币和界面翻译 |
-| `coins.mjs`、`flip-amount.mjs` | Canvas 金币动画和金额翻页 |
-| `desktop.mjs`、`src-tauri/` | 原生窗口、文件保存和导出 |
-| `scripts/app-assets.mjs` | 本机服务、桌面打包和界面测试共用的公开资源清单 |
-| `tests/` | 计算、存储、导入和界面回归 |
+| `core.mjs` | Class durations, amounts, session selection, and semester totals; the timeline owns the timetable snapshot and calculation cache |
+| `app.mjs` | Timer interface, editor, and application state |
+| `calendar.mjs` | General ICS parsing and timetable validation |
+| `configuration.mjs`, `persistence.mjs` | Configuration formats, migration, backups, and storage adapters |
+| `preferences.mjs`, `i18n.mjs` | Languages, currencies, and interface translations |
+| `coins.mjs`, `flip-amount.mjs` | Canvas coins and flipping amount digits |
+| `desktop.mjs`, `src-tauri/` | Native window controls, file storage, and export |
+| `scripts/app-assets.mjs` | Shared public asset list for the local server, desktop build, and UI tests |
+| `tests/` | Calculation, storage, import, and interface regression tests |
 
-`scripts/convert-nyu-calendar.mjs` 另提供一个针对固定 NYU 每周日历格式的命令行转换器；应用内通用 ICS 导入使用 `calendar.mjs`。命令行调用方式和限制见[使用说明](docs/usage.md#命令行转换器)。
+`scripts/convert-nyu-calendar.mjs` is a separate command-line converter for a specific NYU weekly calendar format. The app's general ICS import uses `calendar.mjs`. See the [converter guide](docs/usage.en.md#command-line-converter) for usage and limits.
 
-## 许可证
+## License
 
 [MIT](LICENSE) · Copyright (c) 2026 Mason Li

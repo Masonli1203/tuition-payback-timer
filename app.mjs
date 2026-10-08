@@ -4,14 +4,14 @@ import { FlipAmount } from './flip-amount.mjs';
 import { decodeConfiguration, exportConfiguration, maximumFileBytes } from './configuration.mjs';
 import { createPersistence } from './persistence.mjs';
 import { readCalendar } from './calendar.mjs';
-import { createPreferencePersistence, suggestedPreferences, languages, currencies, createMoneyFormatters, parseTuition } from './preferences.mjs';
+import { createPreferencePersistence, defaultPreferences, languages, currencies, createMoneyFormatters, parseTuition } from './preferences.mjs';
 import { translate, t, setLanguage, localizeDocument } from './i18n.mjs';
 
 const $ = id => document.getElementById(id);
 const persistence = createPersistence({ invoke: window.__TAURI__?.core.invoke });
 const preferencePersistence = createPreferencePersistence({ invoke: window.__TAURI__?.core.invoke });
 const updateStaticText = localizeDocument();
-let preferences = suggestedPreferences(navigator.language);
+let preferences = { ...defaultPreferences };
 let preferencesConfirmed = false;
 let preferenceLoadError = '';
 try {

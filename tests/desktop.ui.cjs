@@ -84,7 +84,9 @@ async function choose(language, currency) {
   active = await launch();
   const page = active.page;
   await page.locator('#preferences-dialog').waitFor({ state: 'visible' });
-  await page.locator('#language-choice').selectOption('en-US');
+  assert.equal(await page.locator('#language-choice').inputValue(), 'en-US');
+  assert.equal(await page.locator('#currency-choice').inputValue(), 'USD');
+  assert.equal(await page.locator('#preferences-heading').textContent(), 'Language & currency');
   await page.waitForTimeout(200);
   assert(await page.locator('#preferences-dialog').evaluate(element => element.scrollHeight <= element.clientHeight));
   await page.screenshot({ path: path.join(root, 'native-first-use.png') });
@@ -173,7 +175,8 @@ async function choose(language, currency) {
   await active.page.clock.setFixedTime(new Date('2026-10-13T13:00:00-04:00'));
   await execute('powershell.exe', ['-NoProfile', '-NonInteractive', '-Command',
     `Add-Type -TypeDefinition 'using System; using System.Runtime.InteropServices; public static class TuitionWindow { [DllImport("user32.dll")] public static extern bool ShowWindowAsync(IntPtr handle, int command); }'; [TuitionWindow]::ShowWindowAsync((Get-Process -Id ${active.pid}).MainWindowHandle, 9)`], { windowsHide: true });
-  await active.page.waitForFunction(() => document.getElementById('countdown').textContent === '01:50:00' && document.getElementById('semester-recovered').textContent.includes('13,957.50'), null, { timeout: 3000 });
+  // Five of the fixture's fourteen classes have ended: 36,000 × 5 / 14.
+  await active.page.waitForFunction(() => document.getElementById('countdown').textContent === '01:50:00' && document.getElementById('semester-recovered').textContent.includes('12,857.14'), null, { timeout: 3000 });
   console.log('Native: pin and minimized recovery passed.');
 
   // Actual disk failures must preserve edits, then permit a successful retry.

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createPreferencePersistence, decodePreferences, preferenceKey, createMoneyFormatters, currencies, languages, suggestedPreferences, parseTuition } from '../preferences.mjs';
+import { createPreferencePersistence, decodePreferences, preferenceKey, createMoneyFormatters, currencies, languages, parseTuition } from '../preferences.mjs';
 import { setLanguage, t, translate, messages, messageColumns } from '../i18n.mjs';
 import { exportConfiguration, decodeConfiguration } from '../configuration.mjs';
 
@@ -90,9 +90,8 @@ test('every supported language has a complete catalog with intact placeholders',
   }
 });
 
-test('new language presets, dynamic messages and saved preferences retain their language', () => {
-  for (const [locale, code] of [['zh-TW', 'zh-TW'], ['zh-HK', 'zh-TW'], ['zh-Hant-HK', 'zh-TW'], ['ko-KR', 'ko-KR'], ['es-MX', 'es-ES'], ['es-ES', 'es-ES']]) {
-    assert.deepEqual(suggestedPreferences(locale), { language: code, currency: 'USD' });
+test('dynamic messages and saved preferences retain every supported language', () => {
+  for (const { code } of languages) {
     assert.equal(decodePreferences(JSON.stringify({ version: 1, language: code, currency: 'JPY' })).language, code);
   }
   assert.equal(translate('语言与货币', 'zh-TW'), '語言與貨幣');
