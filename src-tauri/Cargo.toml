@@ -1,0 +1,16 @@
+[package]
+name = "tuition-payback"
+version = "0.2.9"
+description = "Tuition Payback Timer"
+license = "MIT"
+edition = "2021"
+rust-version = "1.90"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-dialog = "2"
+tauri-plugin-single-instance = "2"
+serde_json = "1"

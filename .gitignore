@@ -1,0 +1,14 @@
+.runtime/
+node_modules/
+test-results/
+dist/
+src-tauri/target/
+src-tauri/gen/
+backups/
+release/
+sources/
+MEMORY.md
+AGENTS.md
+.env
+.env.*
+!.env.example

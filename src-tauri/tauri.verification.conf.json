@@ -1,0 +1,7 @@
+{
+  "identifier": "com.mason.tuition-payback.locale-verification",
+  "productName": "Tuition Locale Verification",
+  "app": {
+    "windows": [{ "label": "main", "title": "学费回本计时器（隔离验证）", "width": 480, "height": 420, "minWidth": 400, "minHeight": 360, "decorations": false, "resizable": true }]
+  }
+}
