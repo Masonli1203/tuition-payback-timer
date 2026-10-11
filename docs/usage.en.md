@@ -24,7 +24,7 @@ When maximized, the app shows **Focus on class!** during class and **Rest well!*
 
 Coins use the current class's unrounded amount: one per 10 selected currency units, with at most 600 drawn. Switching classes recalculates the pile. Resuming the app immediately shows the current amount and pile. With reduced motion enabled, digits and coins update directly. Once animations settle, no continuous animation-frame loop runs.
 
-Light mode runs from 07:00 inclusive until 19:00; dark mode runs otherwise. This follows the device's local clock, not sunrise, sunset, or location.
+Light mode runs from 06:00 inclusive until 18:00; dark mode runs otherwise. The theme changes automatically at these boundaries and refreshes when the app resumes. This follows the device's local clock, not sunrise, sunset, or location.
 
 ## Export and restore JSON
 

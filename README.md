@@ -18,7 +18,7 @@ This project turns an abstract tuition bill into a rolling number and a growing 
 
 ## Features
 
-Version **0.2.10** includes a Windows x64 desktop app and a version you can run in a local browser. First launch defaults to **English** and **USD**, regardless of your system language. Upgrading preserves your saved language and currency.
+Version **0.2.11** includes a Windows x64 desktop app and a version you can run in a local browser. First launch defaults to **English** and **USD**, regardless of your system language. Upgrading preserves your saved language and currency.
 
 | Feature | How it works |
 | --- | --- |
@@ -28,7 +28,7 @@ Version **0.2.10** includes a Windows x64 desktop app and a version you can run 
 | Tuition and hours preview | Calculates actual scheduled hours and the per-second rate; enter durations in whole hours and minutes |
 | Flipping digits and coins | Updates on whole seconds and animates only changing digits; drops a coin for each 10 currency units during the current class |
 | Desktop window | Starts at 480 × 420 with dragging, always-on-top, minimize, and maximize controls; shows “Focus on class!” or “Rest well!” when maximized |
-| Automatic light and dark themes | Uses light mode from 07:00 to 19:00 and dark mode otherwise, based on the device's local clock |
+| Automatic light and dark themes | Uses light mode from 06:00 to 18:00 and dark mode otherwise, based on the device's local clock |
 | Languages and currencies | Six interface languages and twelve currencies, selected independently; course names stay as entered |
 | Import and backup | Imports supported ICS calendars and full JSON backups, with a preview before confirmation |
 | Local storage | Desktop files are backed up before replacement; the browser version uses local storage |
@@ -45,7 +45,7 @@ Currencies: USD, CNY, JPY, EUR, GBP, HKD, TWD, KRW, CAD, AUD, SGD, CHF. Changing
 
 Get these files from [Releases](https://github.com/Masonli1203/tuition-payback-timer/releases/latest):
 
-- `TuitionPaybackTimer_0.2.10_x64-setup.exe`: Windows x64 installer.
+- `TuitionPaybackTimer_0.2.11_x64-setup.exe`: Windows x64 installer.
 - `TuitionPaybackTimer.exe`: run directly; settings still use the same application data directory as the installed version.
 - `SHA256SUMS.txt`: SHA-256 checksums for the release files.
 
@@ -121,7 +121,7 @@ npm run desktop:prepare
 cargo test --manifest-path src-tauri/Cargo.toml
 ```
 
-The suite contains 72 JavaScript tests and 5 Rust file-storage tests. Three browser regression suites use local Microsoft Edge to cover JSON / ICS, language and currency preferences, save failures and retries, class boundaries, and different window sizes. First-use checks cover seven system locales; saved language choices are preserved.
+The suite contains 72 JavaScript tests and 5 Rust file-storage tests. Four browser regression suites use local Microsoft Edge to cover JSON / ICS, language and currency preferences, save failures and retries, class boundaries, different window sizes, and automatic theme changes at 06:00 and 18:00. First-use checks cover seven system locales; saved language choices are preserved.
 
 Native Windows regression requires a separate verification build:
 

@@ -1,6 +1,6 @@
 [package]
 name = "tuition-payback"
-version = "0.2.10"
+version = "0.2.11"
 description = "Tuition Payback Timer"
 license = "MIT"
 edition = "2021"

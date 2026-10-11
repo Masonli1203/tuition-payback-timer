@@ -15,7 +15,7 @@
       function updateTheme() {
         clearTimeout(timer);
         const hour = new Date().getHours();
-        const theme = hour >= 7 && hour < 19 ? 'light' : 'dark';
+        const theme = hour >= 6 && hour < 18 ? 'light' : 'dark';
         if (root.dataset.theme !== theme) {
           root.dataset.theme = theme;
           themeColor.content = getComputedStyle(root).getPropertyValue('--background').trim();

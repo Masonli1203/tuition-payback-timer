@@ -1,6 +1,6 @@
 {
   "name": "tuition-payback-timer",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "private": true,
   "license": "MIT",
   "repository": {
@@ -11,7 +11,7 @@
   "scripts": {
     "start": "node server.mjs",
     "test": "node --test tests/*.test.mjs",
-    "test:ui": "node tests/migration.ui.cjs && node tests/preferences.ui.cjs && node tests/focus-message.ui.cjs",
+    "test:ui": "node tests/migration.ui.cjs && node tests/preferences.ui.cjs && node tests/focus-message.ui.cjs && node tests/theme.ui.cjs",
     "test:desktop": "node tests/desktop.ui.cjs",
     "desktop:prepare": "node scripts/prepare-desktop.mjs",
     "desktop:dev": "tauri dev",

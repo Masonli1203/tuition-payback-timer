@@ -1,6 +1,7 @@
 // Build with npm run desktop:build:verification, then npm run test:desktop.
 // Both installer and data directory use an isolated identifier.
 const { chromium } = require('playwright');
+const { verifyThemeBoundaries } = require('./theme.ui.cjs');
 const assert = require('node:assert/strict');
 const fs = require('node:fs/promises');
 const path = require('node:path');
@@ -50,7 +51,7 @@ async function launch() {
   assert(page);
   page.on('pageerror', error => errors.push(error.message));
   await page.waitForFunction(() => !document.getElementById('preferences-open').disabled);
-  assert.match(await page.evaluate(() => __TAURI__.core.invoke('configuration_path')), /com\.mason\.tuition-payback\.locale-verification/);
+  assert.equal(await page.evaluate(() => __TAURI__.core.invoke('configuration_path')), configPath);
   await page.clock.setFixedTime(new Date('2026-10-06T13:00:00-04:00'));
   await page.evaluate(() => window.dispatchEvent(new Event('focus')));
   return { page, browser, pid };
@@ -80,9 +81,11 @@ async function choose(language, currency) {
   console.log('Native: isolated installation ready.');
   try { await fs.copyFile(prefsPath, path.join(root, `native-preferences-before-${Date.now()}.json`)); await fs.chmod(prefsPath, 0o666); await fs.unlink(prefsPath); }
   catch (error) { if (error.code !== 'ENOENT') throw error; }
+  assert.equal(await optionalFile(prefsPath), null, 'first-use verification must start without saved preferences');
   await fs.writeFile(configPath, fixture);
   active = await launch();
   const page = active.page;
+  assert.equal(await page.evaluate(() => __TAURI__.core.invoke('load_preferences')), null, 'native first-use preference file');
   await page.locator('#preferences-dialog').waitFor({ state: 'visible' });
   assert.equal(await page.locator('#language-choice').inputValue(), 'en-US');
   assert.equal(await page.locator('#currency-choice').inputValue(), 'USD');
@@ -234,12 +237,16 @@ async function choose(language, currency) {
     assert.equal(JSON.parse(await fs.readFile(configPath, 'utf8')).version, 4);
     await close();
   }
+  active = await launch();
+  await verifyThemeBoundaries(active.page);
+  await close();
+  console.log('Native: exact 06:00/18:00 theme boundaries, startup and recovery passed.');
   assert.deepEqual(await optionalFile(formalConfigPath), formalBefore);
   assert.deepEqual(await optionalFile(formalPrefsPath), formalPrefsBefore);
   assert.deepEqual(errors, []);
   await fs.writeFile(path.join(root, 'native-result.json'), JSON.stringify({ version, firstUse: true, restart: true,
     preferenceFailureRetry: true, configurationFailureRetry: true, overwriteInstall: true, legacyMigration: true,
-    malformedPreserved: true, pin: true, minimizedRecovery: true, localizedNativeControls: true,
+    malformedPreserved: true, pin: true, minimizedRecovery: true, localizedNativeControls: true, themeBoundaries: true,
     japaneseJPY: true, addedLanguages: ['zh-TW', 'ko-KR', 'es-ES'], formalDataUnchanged: true }, null, 2));
   console.log('Native desktop: preferences, configuration failure/retry, backups, reinstall, legacy migration, malformed files, pin, minimized recovery, locales, layout and formal data preservation passed.');
 })().finally(async () => {
