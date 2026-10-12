@@ -18,7 +18,7 @@ This project turns an abstract tuition bill into a rolling number and a growing 
 
 ## Features
 
-Version **0.2.11** includes a Windows x64 desktop app and a version you can run in a local browser. First launch defaults to **English** and **USD**, regardless of your system language. Upgrading preserves your saved language and currency.
+Version **0.2.13** includes a Windows x64 desktop app and a version you can run in a local browser. The updated icon features a graduation cap and receipt, with a dark rounded tile and transparent outer corners. First launch defaults to **English** and **USD**, regardless of your system language. Upgrading preserves your saved language and currency.
 
 | Feature | How it works |
 | --- | --- |
@@ -45,7 +45,7 @@ Currencies: USD, CNY, JPY, EUR, GBP, HKD, TWD, KRW, CAD, AUD, SGD, CHF. Changing
 
 Get these files from [Releases](https://github.com/Masonli1203/tuition-payback-timer/releases/latest):
 
-- `TuitionPaybackTimer_0.2.11_x64-setup.exe`: Windows x64 installer.
+- `TuitionPaybackTimer_0.2.13_x64-setup.exe`: Windows x64 installer.
 - `TuitionPaybackTimer.exe`: run directly; settings still use the same application data directory as the installed version.
 - `SHA256SUMS.txt`: SHA-256 checksums for the release files.
 

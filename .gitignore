@@ -6,6 +6,7 @@ src-tauri/target/
 src-tauri/gen/
 backups/
 release/
+output/
 sources/
 MEMORY.md
 .env

@@ -18,7 +18,7 @@
 
 ## 现在实现了什么
 
-当前版本为 **0.2.11**，提供 Windows x64 桌面程序和可在本机浏览器运行的网页版本。
+当前版本为 **0.2.13**，提供 Windows x64 桌面程序和可在本机浏览器运行的网页版本。新版图标融入学士帽和票据元素，保留深色圆角底板，底板外侧透明。
 
 | 功能 | 当前行为 |
 | --- | --- |
@@ -45,7 +45,7 @@
 
 在 [Releases](https://github.com/Masonli1203/tuition-payback-timer/releases/latest) 下载：
 
-- `TuitionPaybackTimer_0.2.11_x64-setup.exe`：Windows x64 安装包。
+- `TuitionPaybackTimer_0.2.13_x64-setup.exe`：Windows x64 安装包。
 - `TuitionPaybackTimer.exe`：可直接启动的程序，也使用同一应用数据目录保存设置。
 - `SHA256SUMS.txt`：发布文件的 SHA-256 校验值。
 

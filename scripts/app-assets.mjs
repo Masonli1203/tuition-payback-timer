@@ -3,6 +3,7 @@
 export const appAssets = new Map([
   ['index.html', 'text/html; charset=utf-8'],
   ['styles.css', 'text/css; charset=utf-8'],
+  ['favicon.png', 'image/png'],
   ...['app', 'core', 'coins', 'flip-amount', 'configuration', 'persistence',
     'calendar', 'desktop', 'preferences', 'i18n'].map(name => [`${name}.mjs`, 'text/javascript; charset=utf-8']),
 ]);
