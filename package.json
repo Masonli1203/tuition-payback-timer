@@ -18,9 +18,12 @@
     "desktop:build": "tauri build",
     "desktop:build:verification": "tauri build --config src-tauri/tauri.verification.conf.json",
     "tauri": "tauri",
-    "ios:init": "tauri ios init",
-    "ios:dev": "tauri ios dev --features custom-protocol --no-dev-server",
-    "ios:build": "tauri ios build",
+    "ios:init": "tauri ios init && node scripts/prepare-ios-widget.mjs",
+    "ios:widget:prepare": "node scripts/prepare-ios-widget.mjs",
+    "ios:dev": "node scripts/prepare-ios-widget.mjs && tauri ios dev --features custom-protocol --no-dev-server",
+    "ios:build": "node scripts/prepare-ios-widget.mjs && tauri ios build",
+    "ios:build:widget-verification": "node scripts/prepare-ios-widget.mjs --verification && tauri ios build --config src-tauri/tauri.widget-verification.conf.json --debug --target aarch64-sim --no-sign",
+    "test:widget:native": "node tests/widget-native.mjs",
     "test:mobile": "node tests/mobile.ui.cjs"
   },
   "devDependencies": {

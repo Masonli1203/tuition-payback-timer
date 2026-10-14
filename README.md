@@ -83,7 +83,7 @@ Only Windows x64 binaries are currently published. There are no macOS, Linux, or
 
 ## iOS development preview
 
-This branch adds mobile scaffolding and an adaptive iPhone layout. See [iOS setup and verification](docs/ios.md). Windows remains supported; no mobile release or home-screen widget is published.
+This branch adds an adaptive iPhone layout and a WidgetKit home-screen widget preview in small and medium sizes. See [iOS setup and verification](docs/ios.md). Windows remains supported; no mobile release or widget is published.
 
 ## Run from source
 
@@ -125,7 +125,7 @@ npm run desktop:prepare
 cargo test --manifest-path src-tauri/Cargo.toml
 ```
 
-The suite contains 72 JavaScript tests and 5 Rust file-storage tests. Four browser regression suites use local Microsoft Edge to cover JSON / ICS, language and currency preferences, save failures and retries, class boundaries, different window sizes, and automatic theme changes at 06:00 and 18:00. First-use checks cover seven system locales; saved language choices are preserved.
+The suite contains 75 JavaScript tests and 5 Rust file-storage tests. Four browser regression suites use local Microsoft Edge to cover JSON / ICS, language and currency preferences, save failures and retries, class boundaries, different window sizes, and automatic theme changes at 06:00 and 18:00. First-use checks cover seven system locales; saved language choices are preserved.
 
 Native Windows regression requires a separate verification build:
 

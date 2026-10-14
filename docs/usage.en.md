@@ -20,7 +20,9 @@ During class, the app automatically shows the active session. Between classes, i
 
 The desktop window starts at 480 × 420 with a minimum of 400 × 360. Drag the blank top area or date / clock area to move it, and double-click the top area to toggle maximization. Top-right controls are pin, settings, minimize, maximize, and close. Pinning lasts for the current window only and resets after reopening.
 
-When maximized, the app shows **Focus on class!** during class and **Rest well!** before class, between classes, on excluded dates, or after the semester. This message is hidden in the small window.
+When maximized, the app shows **Focus on class!** during class and **Rest well!** before class, between classes, on excluded dates, or after the semester. This message is hidden in the small desktop window and always shown in the iPhone layout.
+
+On iPhone, the reminder automatically uses the largest font that fits its available area. It can wrap onto multiple lines in all six languages and resizes when the available space or message changes. In landscape, the amount is on the left, the reminder on the right, and the countdown below. Each line centers the words independently of its hanging exclamation marks; punctuation remains inside the reminder area.
 
 Coins use the current class's unrounded amount: one per 10 selected currency units, with at most 600 drawn. Switching classes recalculates the pile. Resuming the app immediately shows the current amount and pile. With reduced motion enabled, digits and coins update directly. Once animations settle, no continuous animation-frame loop runs.
 
@@ -61,3 +63,11 @@ node scripts/convert-nyu-calendar.mjs INPUT.ics TUITION OUTPUT.json
 ```
 
 This helper supports a specific NYU weekly calendar format with the `America/New_York` time zone, a single `BYDAY`, and explicit `UNTIL`. The app's general importer is separate. The helper runs offline, and the output path must be a new file. Import the generated JSON into the app to review and edit it; JSON without currency metadata is treated as USD.
+
+## iPhone home-screen widget (development preview)
+
+Install the iOS development build, open it and save tuition and a timetable. Long-press the home screen, choose **Edit → Add Widget**, search for **Tuition Payback**, and select small or medium. Tap the widget to open the app.
+
+The small widget shows the current or next class, the current-class amount and a countdown. Medium also shows the semester total. Amounts use scheduled snapshots (normally every five minutes while in class), with an update time; iOS may delay refreshes. The countdown can advance between snapshots. A static gold coin pile grows along the bottom: one coin per 10 selected currency units recovered in the current class, capped at 600 visible coins. It resets when the selected class changes and updates with amount snapshots. Falling animations remain in the app.
+
+Saved language, currency and timetable changes sync when the app saves or resumes. If synchronization fails, reopen the app to retry; your saved configuration remains intact. Reopen after changing time zones. The widget uses the same background and green accent as the app: light from 06:00 to 18:00, dark otherwise, based on the device’s local clock. Theme transitions are scheduled even between classes, subject to iOS delivery. See [iOS setup](ios.md) for signing and current verification limits.

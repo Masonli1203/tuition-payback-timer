@@ -87,7 +87,7 @@ pub fn run() {
     let builder = builder
         .plugin(tauri_plugin_dialog::init())
         .manage(PersistenceState::default())
-        .invoke_handler(tauri::generate_handler![load_configuration, save_configuration, export_configuration, configuration_path, load_preferences, save_preferences, runtime_platform]);
+        .invoke_handler(tauri::generate_handler![load_configuration, save_configuration, export_configuration, configuration_path, load_preferences, save_preferences, runtime_platform, sync_widget]);
     #[cfg(desktop)]
     let builder = builder
         .on_window_event(|window, event| {
@@ -104,3 +104,32 @@ pub fn run() {
 
 #[tauri::command]
 fn runtime_platform() -> &'static str { std::env::consts::OS }
+
+// Linked by the iOS host only. The App Group is a derived, read-only widget
+// snapshot; original configuration and its backups remain in native storage.
+#[tauri::command]
+fn sync_widget(text: String) -> Result<(), String> {
+    #[cfg(target_os = "ios")]
+    {
+        let write = WIDGET_WRITER.get().ok_or("Widget bridge is not installed")?;
+        if text.len() > 16 * 1024 * 1024 { return Err("Widget snapshot is too large".into()); }
+        let text = std::ffi::CString::new(text).map_err(|e| e.to_string())?;
+        if unsafe { write(text.as_ptr()) } != 0 {
+            return Err("Unable to write widget App Group snapshot".into());
+        }
+    }
+    #[cfg(not(target_os = "ios"))]
+    let _ = text;
+    Ok(())
+}
+
+#[cfg(target_os = "ios")]
+static WIDGET_WRITER: std::sync::OnceLock<unsafe extern "C" fn(*const std::ffi::c_char) -> i32> = std::sync::OnceLock::new();
+
+// Register from the host before start_app. A callback avoids an unresolved Swift
+// symbol when Cargo builds its standalone cdylib alongside the iOS staticlib.
+#[cfg(target_os = "ios")]
+#[no_mangle]
+pub extern "C" fn tuition_widget_register(writer: unsafe extern "C" fn(*const std::ffi::c_char) -> i32) {
+    let _ = WIDGET_WRITER.set(writer);
+}

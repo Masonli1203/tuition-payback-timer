@@ -305,6 +305,16 @@ h4 { color: var(--muted); font-size: 14px; font-weight: 400; margin: 20px 0 12px
 :root[data-mobile='true'] .timer { min-height: 350px; padding-top: 28px; }
 :root[data-mobile='true'] .locale-badge { top: 28px; }
 :root[data-mobile='true'] .value-block { margin-top: 28px; }
+:root[data-mobile='true'] .focus-message { min-height: 72px; padding: 12px 0; text-align: center; }
+:root[data-mobile='true'] #focus-message-text {
+  width: 100%; max-width: 100%; font-size: 24px; line-height: 1.08;
+  letter-spacing: 0; white-space: normal; word-break: keep-all; text-wrap: balance;
+}
+.reminder-word { display: inline-block; position: relative; white-space: nowrap; }
+.reminder-line { display: block; white-space: nowrap; }
+.reminder-mark { position: absolute; top: 0; }
+.reminder-mark-start { right: 100%; }
+.reminder-mark-end { left: 100%; }
 :root[data-mobile='true'] .lesson-progress { padding-top: 32px; }
 :root[data-mobile='true'] .settings-dialog {
   width: calc(100% - 24px); max-width: 560px;
@@ -316,6 +326,30 @@ h4 { color: var(--muted); font-size: 14px; font-weight: 400; margin: 20px 0 12px
 :root[data-mobile='true'] .amount { font-size: clamp(36px, 12vw, 60px); }
 :root[data-mobile='true'] .amount[data-size='medium'] { font-size: clamp(28px, 9vw, 46px); }
 :root[data-mobile='true'] .amount[data-size='large'] { font-size: clamp(20px, 6.5vw, 34px); }
+@media (orientation: landscape) and (max-height: 600px) {
+  :root[data-mobile='true'] .app-shell {
+    padding-top: max(8px, env(safe-area-inset-top));
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+  }
+  :root[data-mobile='true'] .timer {
+    min-height: 0; padding-top: 8px;
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+    column-gap: 24px;
+  }
+  :root[data-mobile='true'] .course-heading { grid-area: 1 / 1; }
+  :root[data-mobile='true'] .status { grid-area: 2 / 1; }
+  :root[data-mobile='true'] .locale-badge { top: 8px; right: calc(100% * 1.2 / 2.2 + 12px); }
+  :root[data-mobile='true'] .value-block { grid-area: 3 / 1; margin: 8px 0; }
+  :root[data-mobile='true'] .amount { min-height: 54px; font-size: 42px; margin-top: 4px; }
+  :root[data-mobile='true'] .amount[data-size='medium'] { font-size: 35px; }
+  :root[data-mobile='true'] .amount[data-size='large'] { font-size: 24px; }
+  :root[data-mobile='true'] .semester-recovery { margin-top: 4px; }
+  :root[data-mobile='true'] .focus-message { grid-area: 1 / 2 / 4 / 3; min-height: 0; padding: 4px 0; }
+  :root[data-mobile='true'] .lesson-progress { grid-area: 4 / 1 / 5 / 3; padding-top: 8px; margin-top: 0; }
+  :root[data-mobile='true'] .empty-hint,
+  :root[data-mobile='true'] .notice { grid-column: 1 / -1; }
+}
 /* WebKit date controls have an intrinsic minimum width unless appearance is reset. */
 :root[data-mobile='true'] input[type='date'],
 :root[data-mobile='true'] input[type='time'] {

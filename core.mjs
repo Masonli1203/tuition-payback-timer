@@ -314,3 +314,20 @@ export function createSemesterTimeline(semester) {
     return { calendar, session, recovery };
   };
 }
+
+// Widget snapshots use the exact occurrenceStart behavior (including DST and
+// overnight lessons) as the foreground timeline. Milliseconds stay lossless.
+export function scheduledOccurrences(semester) {
+  const { schedules, tuitionCents, summary } = prepareSemester(semester);
+  const sessions = [];
+  for (const { start, firstOffset, count, excludedIndices, minutes, name, durationMs } of schedules) {
+    for (let index = 0; index < count; index++) {
+      if (excludedIndices.has(index)) continue;
+      if (sessions.length >= 50000) throw new Error('Widget timetable exceeds 50,000 sessions.');
+      const startAt = occurrenceStart(start, firstOffset + index * 7, minutes);
+      sessions.push({ name, start: startAt, end: startAt + durationMs });
+    }
+  }
+  sessions.sort((a, b) => a.start - b.start);
+  return { tuitionCents, semesterDurationMs: summary.semesterDurationMs, sessions };
+}

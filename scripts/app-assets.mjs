@@ -5,5 +5,5 @@ export const appAssets = new Map([
   ['styles.css', 'text/css; charset=utf-8'],
   ['favicon.png', 'image/png'],
   ...['app', 'core', 'coins', 'flip-amount', 'configuration', 'persistence',
-    'calendar', 'platform', 'desktop', 'preferences', 'i18n'].map(name => [`${name}.mjs`, 'text/javascript; charset=utf-8']),
+    'calendar', 'widget', 'platform', 'desktop', 'preferences', 'i18n', 'reminder'].map(name => [`${name}.mjs`, 'text/javascript; charset=utf-8']),
 ]);

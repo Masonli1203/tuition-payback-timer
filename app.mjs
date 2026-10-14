@@ -1,3 +1,6 @@
+import { isMobile, nativePlatform } from './platform.mjs';
+import { fitReminder } from './reminder.mjs';
+import { createWidgetSync } from './widget.mjs';
 import { parseCourseDuration, parseDate, parseTime, semesterCalendar, calculateSemester, createSemesterTimeline, calculateSession, formatDuration, localDateInput } from './core.mjs';
 import { CoinPile } from './coins.mjs';
 import { FlipAmount } from './flip-amount.mjs';
@@ -8,6 +11,10 @@ import { createPreferencePersistence, defaultPreferences, languages, currencies,
 import { translate, t, setLanguage, localizeDocument } from './i18n.mjs';
 
 const $ = id => document.getElementById(id);
+if (isMobile) {
+  $('focus-message').hidden = false;
+  fitReminder($('focus-message'), $('focus-message-text'));
+}
 const persistence = createPersistence({ invoke: window.__TAURI__?.core.invoke });
 const preferencePersistence = createPreferencePersistence({ invoke: window.__TAURI__?.core.invoke });
 const updateStaticText = localizeDocument();
@@ -25,6 +32,7 @@ const coinPile = new CoinPile($('coin-canvas'), reducedMotion);
 const flipAmount = new FlipAmount($('amount'), $('amount-whole'), $('amount-fraction'));
 flipAmount.update('0', '00', null);
 let configuration = null;
+let configurationLoadFailed = false;
 let legacyDraft = null;
 let timeline = null;
 let selectedDay = (new Date().getDay() + 6) % 7;
@@ -420,12 +428,22 @@ function tick() {
   timeoutId = setTimeout(tick, Math.max(16, 1000 - Date.now() % 1000));
 }
 
+const syncWidget = nativePlatform === 'ios'
+  ? createWidgetSync(window.__TAURI__.core.invoke, error => {
+      console.warn('Widget sync failed; retry on next resume:', error);
+      showNotice(preferences.language.startsWith('zh')
+        ? '小组件同步失败，应用数据仍已保存。请重新打开应用重试。'
+        : 'Widget sync failed. App data is saved; reopen the app to retry.');
+    })
+  : null;
+
 function resume() {
   stopLoop();
   coinPile.settle();
   flipAmount.settle();
   coinPile.skipNextDrop = true;
   timeline = configuration ? createSemesterTimeline(configuration) : null;
+  if (ready && !configurationLoadFailed && !preferenceLoadError && syncWidget) void syncWidget(configuration, preferences);
   lastRender = -Infinity;
   tick();
 }
@@ -433,6 +451,7 @@ function resume() {
 function activate(next, message) {
   calculateSemester(next);
   configuration = next;
+  configurationLoadFailed = false;
   coinPile.reset();
   legacyDraft = null;
   showNotice('');
@@ -634,7 +653,7 @@ try {
     legacyDraft = saved.draft;
     showNotice('请点击齿轮补充学期学费、起止日期和每周课表；原课程已保留为未保存草稿。');
   }
-} catch (error) { showNotice(`未能读取上次设置：${error?.message ?? String(error)} 原数据保留，可在设置中恢复备份。`); }
+} catch (error) { configurationLoadFailed = true; showNotice(`未能读取上次设置：${error?.message ?? String(error)} 原数据保留，可在设置中恢复备份。`); }
 ready = true;
 $('settings-open').disabled = false;
 $('preferences-open').disabled = false;

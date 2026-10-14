@@ -11,6 +11,7 @@ function isDragTarget(event) {
 document.documentElement.dataset.platform = nativePlatform;
 if (isMobile) {
   document.querySelectorAll('.window-button, #window-pin').forEach(button => { button.hidden = true; });
+  document.getElementById('focus-message').hidden = false;
 } else if (tauri) {
   document.documentElement.dataset.desktop = 'true';
   const current = tauri.window.getCurrentWindow();
