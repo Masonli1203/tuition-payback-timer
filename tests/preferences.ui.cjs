@@ -29,6 +29,7 @@ async function createPage({ desktop = false, saved = null, configuration = null,
     }
     if (desktop) window.__TAURI__ = {
       core: { invoke: async (command, args) => {
+        if (command === 'runtime_platform') return 'windows';
         if (command === 'load_configuration') return localStorage.getItem(configurationKey);
         if (command === 'load_preferences') return localStorage.getItem(key);
         if (command === 'save_preferences') {
@@ -64,7 +65,7 @@ async function noOverflow(page) {
 }
 (async () => {
   await fs.mkdir(output, { recursive: true });
-  browser = await chromium.launch({ channel: 'msedge', headless: true });
+  browser = await chromium.launch({ channel: process.env.PLAYWRIGHT_CHANNEL || 'msedge', headless: true });
   const page = await createPage({ configuration: config });
   assert.deepEqual(errors, []);
   assert(await page.locator('#preferences-dialog').isVisible());

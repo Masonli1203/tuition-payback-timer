@@ -1,4 +1,5 @@
 import { translate } from './i18n.mjs';
+import { isMobile, nativePlatform } from './platform.mjs';
 const tauri = window.__TAURI__;
 const shell = document.querySelector('.window-shell');
 const app = document.querySelector('.app-shell');
@@ -7,7 +8,10 @@ function isDragTarget(event) {
   return !event.target.closest('button, input, a, .window-actions') &&
     event.clientY <= header.getBoundingClientRect().bottom;
 }
-if (tauri) {
+document.documentElement.dataset.platform = nativePlatform;
+if (isMobile) {
+  document.querySelectorAll('.window-button, #window-pin').forEach(button => { button.hidden = true; });
+} else if (tauri) {
   document.documentElement.dataset.desktop = 'true';
   const current = tauri.window.getCurrentWindow();
   const pin = document.getElementById('window-pin');

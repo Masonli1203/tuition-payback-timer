@@ -1,0 +1,16 @@
+{
+  "identifier": "com.mason.tuition-payback.ios-dev",
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "Tuition Payback Timer"
+      }
+    ]
+  },
+  "bundle": {
+    "iOS": {
+      "minimumSystemVersion": "16.0"
+    }
+  }
+}

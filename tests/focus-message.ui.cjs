@@ -21,6 +21,7 @@ async function open(configuration) {
     let preferences = JSON.stringify({ version: 1, language: 'zh-CN', currency: 'USD' });
     window.__TAURI__ = {
       core: { invoke: async (command, args) => {
+        if (command === 'runtime_platform') return 'windows';
         if (command === 'load_configuration') return configuration;
         if (command === 'load_preferences') return preferences;
         if (command === 'save_preferences') preferences = args.text;
@@ -50,7 +51,7 @@ async function jump(page, time) {
   await page.evaluate(() => window.dispatchEvent(new Event('focus')));
 }
 (async () => {
-  browser = await chromium.launch({ channel: 'msedge', headless: true });
+  browser = await chromium.launch({ channel: process.env.PLAYWRIGHT_CHANNEL || 'msedge', headless: true });
   const page = await open(fixture);
   await expectMessage(page, '好好休息！');
   await page.clock.runFor(1000);

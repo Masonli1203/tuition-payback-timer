@@ -71,7 +71,7 @@ exports.verifyThemeBoundaries = verifyThemeBoundaries;
 if (require.main === module) {
   let browser;
   (async () => {
-    browser = await chromium.launch({ channel: 'msedge', headless: true });
+    browser = await chromium.launch({ channel: process.env.PLAYWRIGHT_CHANNEL || 'msedge', headless: true });
     const errors = [];
     for (const timezoneId of ['America/New_York', 'Asia/Shanghai', 'Asia/Kathmandu']) {
       const page = await browser.newPage({ timezoneId, viewport: { width: 480, height: 420 } });

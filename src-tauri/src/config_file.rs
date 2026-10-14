@@ -80,7 +80,8 @@ pub fn export_file(path: &Path, text: &str) -> Result<(), String> {
 mod tests {
     use super::*;
     fn directory() -> std::path::PathBuf {
-        let path = std::env::temp_dir().join(format!("tuition-persistence-{}", SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_nanos()));
+        static NEXT: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
+        let path = std::env::temp_dir().join(format!("tuition-persistence-{}-{}-{}", std::process::id(), SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_nanos(), NEXT.fetch_add(1, std::sync::atomic::Ordering::Relaxed)));
         fs::create_dir_all(&path).unwrap();
         path
     }
@@ -145,14 +146,20 @@ mod tests {
         let path = directory();
         let text = r#"{"version":3,"semester":{}}"#;
         save(&path, text).unwrap();
-        let mut permissions = fs::metadata(path.join(FILE_NAME)).unwrap().permissions();
-        permissions.set_readonly(true);
-        fs::set_permissions(path.join(FILE_NAME), permissions).unwrap();
-        assert!(save(&path, r#"{"version":3,"semester":{"new":true}}"#).is_err());
+        #[cfg(target_os = "windows")]
+        {
+            let mut permissions = fs::metadata(path.join(FILE_NAME)).unwrap().permissions();
+            permissions.set_readonly(true);
+            fs::set_permissions(path.join(FILE_NAME), permissions).unwrap();
+            assert!(save(&path, r#"{"version":3,"semester":{"new":true}}"#).is_err());
+            assert_eq!(read(&path).unwrap().unwrap(), text);
+            let mut permissions = fs::metadata(path.join(FILE_NAME)).unwrap().permissions();
+            permissions.set_readonly(false);
+            fs::set_permissions(path.join(FILE_NAME), permissions).unwrap();
+        }
+        // A non-directory destination fails on every supported OS.
+        assert!(save(&path.join(FILE_NAME), r#"{"version":3,"semester":{"new":true}}"#).is_err());
         assert_eq!(read(&path).unwrap().unwrap(), text);
-        let mut permissions = fs::metadata(path.join(FILE_NAME)).unwrap().permissions();
-        permissions.set_readonly(false);
-        fs::set_permissions(path.join(FILE_NAME), permissions).unwrap();
         clean(path);
     }
 }

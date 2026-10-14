@@ -289,3 +289,30 @@ h4 { color: var(--muted); font-size: 14px; font-weight: 400; margin: 20px 0 12px
   :root[data-desktop='true'] #semester-recovered { font-size: 12px; }
   :root[data-desktop='true'] .countdown { font-size: 16px; }
 }
+
+/* Mobile uses the same timer with a full-height, touch-friendly shell. */
+:root[data-mobile='true'] { --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+:root[data-mobile='true'] body { background: var(--background); }
+:root[data-mobile='true'] .window-shell { width: 100%; height: 100dvh; max-height: none; }
+:root[data-mobile='true'] .app-shell {
+  padding: max(20px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(32px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+}
+:root[data-mobile='true'] .page-header { touch-action: auto; }
+:root[data-mobile='true'] .window-button,
+:root[data-mobile='true'] #window-pin { display: none; }
+:root[data-mobile='true'] .window-actions { margin: 0; }
+:root[data-mobile='true'] .window-actions .icon-button { width: 44px; height: 44px; margin: 0; }
+:root[data-mobile='true'] .timer { min-height: 350px; padding-top: 28px; }
+:root[data-mobile='true'] .locale-badge { top: 28px; }
+:root[data-mobile='true'] .value-block { margin-top: 28px; }
+:root[data-mobile='true'] .lesson-progress { padding-top: 32px; }
+:root[data-mobile='true'] .settings-dialog {
+  width: calc(100% - 24px); max-width: 560px;
+  max-height: calc(100dvh - max(24px, env(safe-area-inset-top)) - max(24px, env(safe-area-inset-bottom)));
+  border-radius: 16px;
+}
+:root[data-mobile='true'] .settings-content { padding: 20px 16px; }
+:root[data-mobile='true'] .semester-recovery { flex-wrap: wrap; }
+:root[data-mobile='true'] .amount { font-size: clamp(36px, 12vw, 60px); }
+:root[data-mobile='true'] .amount[data-size='medium'] { font-size: clamp(28px, 9vw, 46px); }
+:root[data-mobile='true'] .amount[data-size='large'] { font-size: clamp(20px, 6.5vw, 34px); }

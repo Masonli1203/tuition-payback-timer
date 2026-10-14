@@ -1,0 +1,14 @@
+{
+  "identifier": "mobile",
+  "description": "Local timer on mobile",
+  "windows": [
+    "main"
+  ],
+  "platforms": [
+    "iOS",
+    "android"
+  ],
+  "permissions": [
+    "core:default"
+  ]
+}

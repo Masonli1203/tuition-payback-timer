@@ -81,6 +81,10 @@ Desktop data lives in `%APPDATA%\com.mason.tuition-payback\`: `configuration.jso
 
 Only Windows x64 binaries are currently published. There are no macOS, Linux, or mobile releases, or standalone widgets. Actual hardware sleep and DPI behavior across multiple devices have not been fully verified.
 
+## iOS development preview
+
+This branch adds mobile scaffolding and an adaptive iPhone layout. See [iOS setup and verification](docs/ios.md). Windows remains supported; no mobile release or home-screen widget is published.
+
 ## Run from source
 
 The interface uses plain HTML, CSS, and JavaScript. The desktop shell uses Tauri 2.

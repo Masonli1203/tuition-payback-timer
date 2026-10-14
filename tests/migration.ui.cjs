@@ -26,6 +26,7 @@ async function pageFor(text, desktop = false) {
       window.__TAURI__ = {
         core: { invoke: async (command, args) => {
           if (command === 'load_preferences') return JSON.stringify({ version: 1, language: 'zh-CN', currency: 'USD' });
+          if (command === 'runtime_platform') return 'windows';
           if (command === 'load_configuration') return window.testDisk;
           if (command === 'configuration_path') return 'test/configuration.json';
           if (command === 'save_configuration') {
@@ -50,7 +51,7 @@ async function choose(page, record) {
 
 (async () => {
   await fs.mkdir('.runtime', { recursive: true });
-  browser = await chromium.launch({ channel: 'msedge', headless: true });
+  browser = await chromium.launch({ channel: process.env.PLAYWRIGHT_CHANNEL || 'msedge', headless: true });
   const raw = JSON.stringify(original, null, 2);
   const { page, context } = await pageFor(raw);
   assert.equal(await page.evaluate(key => localStorage.getItem(key), key), raw, 'startup must not rewrite');

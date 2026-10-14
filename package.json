@@ -17,7 +17,11 @@
     "desktop:dev": "tauri dev",
     "desktop:build": "tauri build",
     "desktop:build:verification": "tauri build --config src-tauri/tauri.verification.conf.json",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "ios:init": "tauri ios init",
+    "ios:dev": "tauri ios dev",
+    "ios:build": "tauri ios build",
+    "test:mobile": "node tests/mobile.ui.cjs"
   },
   "devDependencies": {
     "@tauri-apps/cli": "2.12.1",

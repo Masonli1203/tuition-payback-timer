@@ -10,8 +10,28 @@
   },
   "app": {
     "withGlobalTauri": true,
-    "windows": [{ "label": "main", "title": "学费回本计时器", "width": 480, "height": 420, "minWidth": 400, "minHeight": 360, "decorations": false, "resizable": true }],
-    "security": { "csp": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src ipc: http://ipc.localhost" }
+    "windows": [
+      {
+        "label": "main",
+        "title": "\u5b66\u8d39\u56de\u672c\u8ba1\u65f6\u5668",
+        "width": 480,
+        "height": 420,
+        "minWidth": 400,
+        "minHeight": 360,
+        "decorations": false,
+        "resizable": true
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src ipc: http://ipc.localhost"
+    }
   },
-  "bundle": { "active": true, "targets": ["nsis"], "icon": ["icons/icon.png", "icons/icon.ico"], "shortDescription": "学费回本计时器", "windows": { "nsis": { "installMode": "currentUser", "installerIcon": "icons/icon.ico", "uninstallerIcon": "icons/icon.ico" } } }
+  "bundle": {
+    "active": true,
+    "icon": [
+      "icons/icon.png",
+      "icons/icon.ico"
+    ],
+    "shortDescription": "\u5b66\u8d39\u56de\u672c\u8ba1\u65f6\u5668"
+  }
 }

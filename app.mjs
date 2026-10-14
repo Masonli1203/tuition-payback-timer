@@ -68,7 +68,7 @@ function applyPreferences() {
   document.querySelector('.value-input > span').textContent = moneyFormats.symbol;
   document.querySelector('.value-input').style.setProperty('--currency-width', `${moneyFormats.symbol.length + 1}ch`);
   setText('timezone', `本地时间 · ${Intl.DateTimeFormat().resolvedOptions().timeZone}`);
-  setText('storage-description', persistence.desktop ? '桌面配置保存在应用数据目录，保存成功后才生效。' : `浏览器配置来源：${location.origin}。请在原先录入课表的浏览器与地址导出。`);
+  setText('storage-description', persistence.desktop ? '配置保存在应用数据目录，保存成功后才生效。' : `浏览器配置来源：${location.origin}。请在原先录入课表的浏览器与地址导出。`);
   setText('semester-recovered', money.format(0));
   $('amount').setAttribute('aria-label', t('本节课已回本 {0}', money.format(0)));
   window.dispatchEvent(new Event('preferences-changed'));
@@ -638,6 +638,6 @@ try {
 ready = true;
 $('settings-open').disabled = false;
 $('preferences-open').disabled = false;
-setText('storage-description', persistence.desktop ? '桌面配置保存在应用数据目录，保存成功后才生效。' : `浏览器配置来源：${location.origin}。请在原先录入课表的浏览器与地址导出。`);
+setText('storage-description', persistence.desktop ? '配置保存在应用数据目录，保存成功后才生效。' : `浏览器配置来源：${location.origin}。请在原先录入课表的浏览器与地址导出。`);
 resume();
 if (!preferencesConfirmed) openPreferences();
