@@ -316,3 +316,13 @@ h4 { color: var(--muted); font-size: 14px; font-weight: 400; margin: 20px 0 12px
 :root[data-mobile='true'] .amount { font-size: clamp(36px, 12vw, 60px); }
 :root[data-mobile='true'] .amount[data-size='medium'] { font-size: clamp(28px, 9vw, 46px); }
 :root[data-mobile='true'] .amount[data-size='large'] { font-size: clamp(20px, 6.5vw, 34px); }
+/* WebKit date controls have an intrinsic minimum width unless appearance is reset. */
+:root[data-mobile='true'] input[type='date'],
+:root[data-mobile='true'] input[type='time'] {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}
+:root[data-mobile='true'] input::-webkit-date-and-time-value { text-align: left; }

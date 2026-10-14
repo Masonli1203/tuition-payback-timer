@@ -19,7 +19,7 @@
     "desktop:build:verification": "tauri build --config src-tauri/tauri.verification.conf.json",
     "tauri": "tauri",
     "ios:init": "tauri ios init",
-    "ios:dev": "tauri ios dev",
+    "ios:dev": "tauri ios dev --features custom-protocol --no-dev-server",
     "ios:build": "tauri ios build",
     "test:mobile": "node tests/mobile.ui.cjs"
   },

@@ -16,7 +16,7 @@ npm run ios:init
 npm run ios:dev
 ```
 
-Select an iPhone simulator when prompted. No distribution certificate or App Store submission is needed for simulator development. The CLI generates the Xcode project in `src-tauri/gen/apple`; generated files stay ignored and can be regenerated with `ios:init`. The iOS-specific config is loaded automatically and uses the separate identifier `com.mason.tuition-payback.ios-dev`.
+Select an iPhone simulator when prompted. The development command embeds the prepared static assets; it does not depend on a network dev server. Restart the command after frontend edits to repackage them. No distribution certificate or App Store submission is needed for simulator development. The CLI generates the Xcode project in `src-tauri/gen/apple`; generated files stay ignored and can be regenerated with `ios:init`. The iOS-specific config is loaded automatically and uses the separate identifier `com.mason.tuition-payback.ios-dev`.
 
 A personal iPhone additionally requires a development signing team configured in Xcode/Tauri and device setup. Do not commit signing secrets. Do not use the Windows verification identifier for iOS.
 
@@ -47,3 +47,12 @@ The mobile browser suite uses a mocked native bridge and checks 320/390/430px la
 ## Later: home-screen widget
 
 A widget requires a separate WidgetKit extension and a deliberate shared-data design (for example an App Group). It cannot simply embed this HTML/canvas screen. Keep timetable data/calculation semantics stable so a future native widget can show the current/next class and progress. Widget update scheduling and animation differ from the foreground app; do not promise per-second coin animations in the widget.
+
+## Verification recorded for this branch
+
+On an Apple Silicon Mac with Xcode 27.0 and an iPhone 18 Pro / iOS 27.0 simulator:
+
+- 72 JavaScript tests, four existing browser UI suites (Chrome), mobile smoke at three widths, and five Rust storage tests passed.
+- `cargo check --target aarch64-apple-ios-sim --locked` passed.
+- Native simulator build and installation succeeded. First-use preferences, saving the live sample timetable, animated timer, JSON export to Files and importing/restoring that exported JSON were exercised in the simulator.
+- Physical iPhone signing/install, native ICS file selection, class-boundary suspension, landscape and accessibility settings still need device verification. Browser tests cover the shared ICS and timestamp recovery logic.
